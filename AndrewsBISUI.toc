@@ -1,0 +1,22 @@
+## Interface: 110205
+## Title: |cFFFFD700Andrews|r |cFF00FF00BiS|r |cFF4A90E2UI|r
+## Notes: Best-in-Slot gear tracking with Wowhead import support
+## Notes-deDE: BiS-Ausrüstungs-Tracking mit Wowhead-Import
+## Notes-esES: Seguimiento de equipo BiS con importación de Wowhead
+## Notes-frFR: Suivi d'équipement BiS avec importation Wowhead
+## Author: Andrew
+## Version: 1.1.0
+## IconTexture: Interface\Icons\INV_Misc_Book_11
+## SavedVariables: AndrewsBISUIDB
+## SavedVariablesPerCharacter: AndrewsBISUICharDB
+## X-Category: Inventory
+## X-Website: https://github.com/yourusername/AndrewsBISUI
+## X-Curse-Project-ID:
+## X-WoWI-ID:
+
+# Ace3 Libraries
+Ace3\LibStub\LibStub.lua
+Ace3\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Ace3\AceGUI-3.0\AceGUI-3.0.xml
+
+AndrewsBISUI.lua
