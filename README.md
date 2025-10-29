@@ -122,15 +122,13 @@ python api_server.py
 # 4. Server runs at http://localhost:5000
 ```
 
-The addon is pre-configured to use `localhost:5000` by default, so no configuration needed!
-
 ### Web Interface
 
 Open `http://localhost:5000` in your browser for a user-friendly interface:
 - Paste Wowhead URLs directly
 - Select your role (Tank/DPS/Healer)
 - Get instant import strings
-- No need to use the in-game import dialog
+- Type `/bis import` inGame to import the String
 
 ### Deployment (Guild/Group Use)
 
@@ -142,14 +140,6 @@ For sharing with guild members, deploy to a hosting service:
 | **Heroku** | Free tier | ⭐⭐ | Popular, reliable |
 | **DigitalOcean** | $5/month | ⭐⭐ | Full control, VPS |
 | **Fly.io** | Free tier | ⭐⭐⭐ | Modern, fast |
-
-After deployment, update the API URL in-game:
-```lua
--- Edit this line in AndrewsBISUI.lua (around line 10)
-ABIS.Config = {
-    apiURL = "https://your-server.railway.app/scrape"
-}
-```
 
 ## 📊 Understanding the UI
 
@@ -163,16 +153,16 @@ The main UI shows your BiS gear organized by slot:
 ├────────────────────────────────────────────┤
 │                                            │
 │  LEFT COLUMN      RIGHT COLUMN             │
-│  ┌─┐ Head         ┌─┐ Legs                │
-│  ┌─┐ Neck         ┌─┐ Boots               │
-│  ┌─┐ Shoulders    ┌─┐ Ring 1              │
-│  ┌─┐ Cloak        ┌─┐ Ring 2              │
-│  ┌─┐ Chest        ┌─┐ Trinket 1           │
-│  ┌─┐ Wrists       ┌─┐ Trinket 2           │
-│  ┌─┐ Hands        ┌─┐ Main Hand           │
-│  ┌─┐ Waist        ┌─┐ Off Hand            │
+│  ┌─┐ Head         ┌─┐ Legs                 │
+│  ┌─┐ Neck         ┌─┐ Boots                │
+│  ┌─┐ Shoulders    ┌─┐ Ring 1               │
+│  ┌─┐ Cloak        ┌─┐ Ring 2               │
+│  ┌─┐ Chest        ┌─┐ Trinket 1            │
+│  ┌─┐ Wrists       ┌─┐ Trinket 2            │
+│  ┌─┐ Hands        ┌─┐ Main Hand            │
+│  ┌─┐ Waist        ┌─┐ Off Hand             │
 │                                            │
-│  Hold Shift to view all enchant tooltips  │
+│  Hold Shift to view all enchant tooltips   │
 │  Alternative Items: [🟣] [🟣] [🟣]        │
 │                    Trinket Finger Weapon   │
 │  Progress: 15/16 items (93%)               │
