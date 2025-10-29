@@ -50,30 +50,33 @@ jobs:
 
       - name: Create release archive
         run: |
-          # Create directory with version name directly
-          mkdir -p emby-watchparty-${{ steps.get_version.outputs.VERSION }}
+          # Create directory with addon name
+          mkdir -p AndrewsBISUI
 
-          # Copy application files directly to versioned directory
-          rsync -a . emby-watchparty-${{ steps.get_version.outputs.VERSION }}/ \
+          # Copy addon files to directory
+          rsync -a . AndrewsBISUI/ \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='__pycache__' \
             --exclude='*.pyc' \
-            --exclude='logs/' \
-            --exclude='config.py' \
-            --exclude='.vscode' \
-            --exclude='.idea' \
-            --exclude='*.swp' \
-            --exclude='.DS_Store' \
             --exclude='venv/' \
             --exclude='env/' \
             --exclude='.venv/' \
             --exclude='*.log' \
-            --exclude='emby-watchparty-*'
+            --exclude='node_modules/' \
+            --exclude='.vscode' \
+            --exclude='.idea' \
+            --exclude='*.swp' \
+            --exclude='.DS_Store' \
+            --exclude='AndrewsBISUI-*' \
+            --exclude='nginx-config.conf' \
+            --exclude='setup-nginx.sh' \
+            --exclude='api_server.py' \
+            --exclude='requirements.txt' \
+            --exclude='*.md'
 
           # Create the zip file
-          zip -r emby-watchparty-${{ steps.get_version.outputs.VERSION }}.zip \
-            emby-watchparty-${{ steps.get_version.outputs.VERSION }}/
+          zip -r AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip AndrewsBISUI/
 
       - name: Create Release
         id: create_release
