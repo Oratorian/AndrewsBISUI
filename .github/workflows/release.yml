@@ -63,39 +63,31 @@ jobs:
             echo 'EOF'
           } >> $GITHUB_OUTPUT
 
-      - name: Create release archive
+      - name: Create .pkgmeta for BigWigs packager
         run: |
-          # Create a temporary directory for packaging
-          mkdir -p release-temp/AndrewsBISUI
+          cat > .pkgmeta << 'EOF'
+          package-as: AndrewsBISUI
 
-          # Copy only WoW addon files
-          cp -r Ace3 release-temp/AndrewsBISUI/Ace3
-          cp AndrewsBISUI.lua release-temp/AndrewsBISUI/AndrewsBISUI.lua
-          cp AndrewsBISUI.toc release-temp/AndrewsBISUI/AndrewsBISUI.toc
+          enable-nolib-creation: no
 
-          # List what we're about to zip (for debugging)
-          echo "Contents of release archive:"
-          ls -R release-temp/
+          ignore:
+            - .github
+            - .gitignore
+            - api_server.py
+            - requirements.txt
+            - nginx-config.conf
+            - setup-nginx.sh
+            - "*.md"
+            - CURSEFORGE_SETUP.md
+            - CHANGELOG.md
+            - README.md
+            - .pkgmeta
+          EOF
 
-          # Create the zip file - zip only the AndrewsBISUI folder
-          cd release-temp
-          zip -r ../AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip AndrewsBISUI
-          cd ..
-
-          # Verify zip contents
-          echo "Zip file contents:"
-          unzip -l AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip | head -20
-
-      - name: Upload to CurseForge
+      - name: Package and Upload to CurseForge
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-        uses: itsmeow/curseforge-upload@v3
+        uses: BigWigsMods/packager@v2
+        env:
+          CF_API_KEY: ${{ secrets.CURSEFORGE_TOKEN }}
         with:
-          token: ${{ secrets.CURSEFORGE_TOKEN }}
-          project_id: 1374444
-          game_endpoint: wow
-          game_version: 11.2.5
-          file_path: AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip
-          changelog: ${{ steps.changelog.outputs.NOTES }}
-          changelog_type: markdown
-          display_name: AndrewsBISUI ${{ steps.get_version.outputs.VERSION }}
-          release_type: release
+          args: -p 1374444 -l CHANGELOG.md
