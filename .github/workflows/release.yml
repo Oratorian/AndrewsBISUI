@@ -93,6 +93,7 @@ jobs:
           token: ${{ secrets.CURSEFORGE_TOKEN }}
           project_id: 1374444
           game_endpoint: wow
+          game_version: 11.2.5
           file_path: AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip
           changelog: ${{ steps.changelog.outputs.NOTES }}
           changelog_type: markdown
