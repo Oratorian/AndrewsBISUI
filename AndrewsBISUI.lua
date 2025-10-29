@@ -213,7 +213,7 @@ function ABIS:ShowAPIURLBox()
     urlBox:SetSize(500, 30)
     urlBox:SetPoint("TOP", 0, -65)
     urlBox:SetAutoFocus(true)
-    urlBox:SetText("http://localhost:5000")
+    urlBox:SetText("https://andrewsbisui.middleton.one/")
     urlBox:SetScript("OnEscapePressed", function() frame:Hide() end)
     urlBox:HighlightText()
 
