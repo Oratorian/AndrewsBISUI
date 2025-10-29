@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: AndrewsBISUI on CurseForge
+    url: https://legacy.curseforge.com/wow/addons/andrewsbisui
+    about: Discuss with the community and get help from other users
+  - name: Documentation
+    url: https://legacy.curseforge.com/wow/addons/andrewsbisui/blob/main/README.md
+    about: Read the full documentation and setup guide
