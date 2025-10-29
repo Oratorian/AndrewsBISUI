@@ -86,28 +86,6 @@ jobs:
           echo "Zip file contents:"
           unzip -l AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip | head -20
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip
-          body: |
-            ## AndrewsBISUI v${{ steps.get_version.outputs.VERSION }}
-
-            ${{ steps.changelog.outputs.NOTES }}
-
-            ---
-
-            ### Installation
-            1. Download and extract `AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip`
-            2. Copy the folder to your WoW Interface folder.
-
-            See [README.md](https://github.com/Oratorian/AndrewsBISUI/blob/main/README.md) for full documentation.
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload to CurseForge
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         uses: itsmeow/curseforge-upload@v3
