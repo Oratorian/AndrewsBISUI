@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'  # Triggers on version tags like v1.0.0, v1.2.3, etc.
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.1.0)'
+        required: true
+        type: string
 
 jobs:
   build-and-release:
@@ -15,7 +21,12 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "VERSION=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Extract changelog for this version
         id: changelog
@@ -50,37 +61,30 @@ jobs:
 
       - name: Create release archive
         run: |
-          # Create directory with addon name
-          mkdir -p AndrewsBISUI
+          # Create a temporary directory for packaging
+          mkdir -p release-temp/AndrewsBISUI
 
-          # Copy addon files to directory
-          rsync -a . AndrewsBISUI/ \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='__pycache__' \
-            --exclude='*.pyc' \
-            --exclude='venv/' \
-            --exclude='env/' \
-            --exclude='.venv/' \
-            --exclude='*.log' \
-            --exclude='node_modules/' \
-            --exclude='.vscode' \
-            --exclude='.idea' \
-            --exclude='*.swp' \
-            --exclude='.DS_Store' \
-            --exclude='AndrewsBISUI-*' \
-            --exclude='nginx-config.conf' \
-            --exclude='setup-nginx.sh' \
-            --exclude='api_server.py' \
-            --exclude='requirements.txt' \
-            --exclude='*.md'
+          # Copy only WoW addon files
+          cp -r Ace3 release-temp/AndrewsBISUI/Ace3
+          cp AndrewsBISUI.lua release-temp/AndrewsBISUI/AndrewsBISUI.lua
+          cp AndrewsBISUI.toc release-temp/AndrewsBISUI/AndrewsBISUI.toc
 
-          # Create the zip file
-          zip -r AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip AndrewsBISUI/
+          # List what we're about to zip (for debugging)
+          echo "Contents of release archive:"
+          ls -R release-temp/
+
+          # Create the zip file - zip only the AndrewsBISUI folder
+          cd release-temp
+          zip -r ../AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip AndrewsBISUI
+          cd ..
+
+          # Verify zip contents
+          echo "Zip file contents:"
+          unzip -l AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip | head -20
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: AndrewsBISUI-${{ steps.get_version.outputs.VERSION }}.zip
           body: |
